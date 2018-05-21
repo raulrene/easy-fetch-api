@@ -1,10 +1,15 @@
 # easy-fetch-api
-Make REST requests using the Fetch API as easy as typing `npm i --save easy-fetch-api`.
+Easy to use wrapper for Fetch API.
+
+* Provides CRUD methods
+* Provides method for easily posting form data
+* Works with async/await
+* Automatically sets required headers
 
 ## Installation
 
 ```sh
-npm install easy-fetch-api
+npm install --save easy-fetch-api
 ```
 
 ## Usage
