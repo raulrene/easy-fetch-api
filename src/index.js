@@ -31,19 +31,16 @@ class Api {
      * Make a PUT request
      *
      * @param {String} url API url to make request to
-     * @param {Object} [headers] HTTP Headers
      * @param {Object} data The data to be updated
+     * @param {Object} [headers] HTTP Headers
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static put({ url, headers, data, callback }) {
+    static put({ url, data, headers, callback }) {
         const request = {
             method: 'PUT',
             url,
             body: JSON.stringify(data),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
+            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -53,17 +50,15 @@ class Api {
      *
      * @param {String} url API url to make request to
      * @param {Object} data The data to be updated
+     * @param {Object} [headers] HTTP Headers
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static patch({ url, data, callback }) {
+    static patch({ url, data, headers, callback }) {
         const request = {
             method: 'PATCH',
             url,
             body: JSON.stringify(data),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
+            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -73,17 +68,15 @@ class Api {
      *
      * @param {String} url API url to make request to
      * @param {Object} data The data to be inserted
+     * @param {Object} [headers] HTTP Headers
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static post({ url, data, callback }) {
+    static post({ url, data, headers, callback }) {
         const request = {
             method: 'POST',
             url,
             body: JSON.stringify(data),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
+            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -93,10 +86,11 @@ class Api {
      *
      * @param {String} url API url to make request to
      * @param {Object} data The data to be inserted
+     * @param {Object} [headers] HTTP Headers
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static postForm({ url, data, callback }) {
-        const request = { method: 'POST', url, body: data };
+    static postForm({ url, data, headers, callback }) {
+        const request = { method: 'POST', url, body: data, headers };
         return this.makeRequest({ request, callback });
     }
 
@@ -104,11 +98,12 @@ class Api {
      * Make a DELETE request
      *
      * @param {String} url API url to make request to
+     * @param {Object} [headers] HTTP Headers
      * @param {String} [query] Query string
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static delete({ url, query, callback }) {
-        const request = { method: 'DELETE', url, query };
+    static delete({ url, headers, query, callback }) {
+        const request = { method: 'DELETE', url, query, headers };
         return this.makeRequest({ request, callback });
     }
 
