@@ -1,6 +1,17 @@
 class Api {
 
     /**
+     * Set global headers instead of setting the same headers on each call.
+     * @param headers {Object} headers object
+     */
+    static setHeaders(headers) {
+        Api.headers = {};
+        if (typeof headers === 'object') {
+            Api.headers = headers;
+        }
+    }
+
+    /**
      * Make a GET request
      *
      * @param {String} url API url to make request to
@@ -9,7 +20,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      */
     static get({ url, headers, query, callback }) {
-        const request = { method: 'GET', url, headers };
+        const request = { method: 'GET', url, headers: Object.assign({}, Api.headers, headers) };
         if (query) {
             const qs = Object.keys(query)
                 .map(k => {
@@ -40,7 +51,10 @@ class Api {
             method: 'PUT',
             url,
             body: JSON.stringify(data),
-            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
+            headers: Object.assign({}, {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }, Api.headers, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -58,7 +72,10 @@ class Api {
             method: 'PATCH',
             url,
             body: JSON.stringify(data),
-            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
+            headers: Object.assign({}, {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }, Api.headers, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -76,7 +93,10 @@ class Api {
             method: 'POST',
             url,
             body: JSON.stringify(data),
-            headers: Object.assign({}, { Accept: 'application/json', 'Content-Type': 'application/json' }, headers)
+            headers: Object.assign({}, {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }, Api.headers, headers)
         };
         return this.makeRequest({ request, callback });
     }
@@ -90,7 +110,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      */
     static postForm({ url, data, headers, callback }) {
-        const request = { method: 'POST', url, body: data, headers };
+        const request = { method: 'POST', url, body: data, headers: Object.assign({}, Api.headers, headers) };
         return this.makeRequest({ request, callback });
     }
 
@@ -103,7 +123,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      */
     static delete({ url, headers, query, callback }) {
-        const request = { method: 'DELETE', url, query, headers };
+        const request = { method: 'DELETE', url, query, headers: Object.assign({}, Api.headers, headers) };
         return this.makeRequest({ request, callback });
     }
 
@@ -138,6 +158,7 @@ class Api {
     }
 }
 
+exports.setHeaders = Api.setHeaders;
 exports.get = Api.get;
 exports.put = Api.put;
 exports.put = Api.patch;
