@@ -138,4 +138,10 @@ class Api {
     }
 }
 
-export default Api;
+exports.get = Api.get;
+exports.put = Api.put;
+exports.put = Api.patch;
+exports.post = Api.post;
+exports.postForm = Api.postForm;
+exports.delete = Api.delete;
+exports.makeRequest = Api.makeRequest;
