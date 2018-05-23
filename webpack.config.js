@@ -13,6 +13,23 @@ module.exports = {
         filename: 'index.js'
     },
 
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                use: {
+                    loader: 'babel-loader'
+                },
+                exclude: /node_modules/,
+                include: path.join(__dirname, 'src')
+            }
+        ],
+    },
+
     plugins: [
         new CleanPlugin('./dist')
     ]
