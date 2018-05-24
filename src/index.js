@@ -35,7 +35,7 @@ class Api {
                 .join('&');
             request.url += `?${qs}`;
         }
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
@@ -56,7 +56,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
@@ -77,7 +77,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
@@ -98,20 +98,20 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
      * Make a POST form data request
      *
      * @param {String} url API url to make request to
-     * @param {Object} data The data to be inserted
+     * @param {String} data Form data to be inserted
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callback] Function to be run after the server responds
      */
     static postForm({ url, data, headers, callback }) {
         const request = { method: 'POST', url, body: data, headers: Object.assign({}, Api.headers, headers) };
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
@@ -124,7 +124,7 @@ class Api {
      */
     static delete({ url, headers, query, callback }) {
         const request = { method: 'DELETE', url, query, headers: Object.assign({}, Api.headers, headers) };
-        return this.makeRequest({ request, callback });
+        return this._makeRequest({ request, callback });
     }
 
     /**
@@ -132,8 +132,9 @@ class Api {
      *
      * @param {Object} request Request to be made. Must be of the form: {method, url, query [optional]}
      * @param {Function} [callback] Function to be run after the server responds
+     * @private
      */
-    static makeRequest({ request, callback }) {
+    static _makeRequest({ request, callback }) {
         const headers = request.headers || {};
 
         // Don't set the body if it's a GET request as it will crash on Microsoft Edge
@@ -165,4 +166,3 @@ exports.put = Api.patch;
 exports.post = Api.post;
 exports.postForm = Api.postForm;
 exports.delete = Api.delete;
-exports.makeRequest = Api.makeRequest;
