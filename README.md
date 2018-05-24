@@ -1,5 +1,5 @@
 # easy-fetch-api
-Easy to use wrapper for Fetch API.
+Easy to use wrapper for the Fetch API.
 
 * Provides CRUD methods
 * Each method returns a Promise, therefore works with async/await
@@ -31,7 +31,9 @@ async function bla() {
 // Set headers on each request
 Api.get({ url: '/api/me', headers: { Authorization: 'Bearer token', Accept: 'application/json' } });
 
-// Or set headers globally and they are automatically passed on each request. This comes in handy in apps that send some headers on each request (e.g. Authorization). Note: headers don't persist between page loads so make sure you set them "globally" before calling Api methods
+// Or set headers globally and they are automatically passed on each request.
+// This comes in handy in apps that send some headers on each request (e.g. Authorization).
+// Note: headers don't persist between page loads so make sure you set them "globally" before calling Api methods
 Api.setHeaders({ Authorization: 'Bearer token', Accept: 'application/json' });
 ```
 **More detailed usage examples below in the docs of each method**:
@@ -42,7 +44,7 @@ Performs a HTTP Get request.
 
 ```javascript
 Api.get({
-	url: '/api/get',
+    url: '/api/get',
 	headers: { Authorization: 'token' },
 	query: { q1: 'value', qn: 'value' },
 	callback: () => {}
@@ -91,6 +93,7 @@ Api.postForm({
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
 * __returns Promise__
 
+---
 ### PUT
 Performs a HTTP Put request.
 
