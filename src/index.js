@@ -35,7 +35,7 @@ class Api {
                 .join('&');
             request.url += `?${qs}`;
         }
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
@@ -56,7 +56,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
@@ -77,7 +77,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
@@ -98,7 +98,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
@@ -111,7 +111,7 @@ class Api {
      */
     static postForm({ url, data, headers, callback }) {
         const request = { method: 'POST', url, body: data, headers: Object.assign({}, Api.headers, headers) };
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
@@ -124,7 +124,7 @@ class Api {
      */
     static delete({ url, headers, query, callback }) {
         const request = { method: 'DELETE', url, query, headers: Object.assign({}, Api.headers, headers) };
-        return this._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callback });
     }
 
     /**
