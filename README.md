@@ -159,7 +159,7 @@ Functions to be called before the request is fired and after the server responds
 Api.get({
 	url: '/api/get',
 	callBefore: () => { dispatch({ type: ACTIONS.LOADING }) },
-	callback: result => { dispatch({ type: ACTIONS.LOADING_DONE }, data: result) }
+	callback: result => { dispatch({ type: ACTIONS.LOADING_DONE, data: result }) }
 )};
 ```
 
