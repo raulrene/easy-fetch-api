@@ -1,6 +1,6 @@
 {
     "name": "easy-fetch-api",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "Make REST requests using the Fetch API as easy as typing npm install and avoid having to manually handle headers and response parsing.",
     "author": "Raul Rene Lepsa <raul.lepsa@gmail.com> (https://github.com/raulrene)",
     "license": "MIT",
