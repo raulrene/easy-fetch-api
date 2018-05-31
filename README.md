@@ -1,10 +1,11 @@
-# easy-fetch-api
-Easy to use wrapper for the Fetch API.
+# (easy) Fetch API
+Easy to use and lightweight wrapper for the Fetch API.
 
 * Provides CRUD methods
 * Each method returns a Promise, therefore works with async/await
 * Automatically sets required headers (for POST, PUT and PATCH it sets `Accept` and `Content-Type` headers to `application/json`)
-* Provides method for easily posting form data
+* Provides method for easily posting [form data](#post-form)
+* Pre-request and post-request callbacks for an easier integration with store-based architectures like Redux [see example](#callbefore-and-callback)
 
 This library does not provide a polyfill for the Fetch API.
 
@@ -21,7 +22,8 @@ import Api from 'easy-fetch-api';
 // OR import only desired methods
 import { get, post, postForm, put, patch, delete, setHeaders } from 'easy-fetch-api';
 
-Api.get({ url: '/api/me', callback: res => { console.log('Got response', res); } });
+// Usage Example:
+Api.get({ url: '/api/me', callback: console.log });
 
 // Using async/await
 async function bla() {
@@ -148,6 +150,18 @@ Api.delete({
 * __query__ (Object, optional) Query object in the form of `{ queryKey: queryValue }`
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
 * __returns Promise__
+
+---
+### CallBefore and Callback
+Functions to be called before the request is fired and after the server responds, respectively. Facilitates integration with store-based architectures like Redux.
+
+```javascript
+Api.get({
+	url: '/api/get',
+	callBefore: () => { dispatch({ type: ACTIONS.LOADING }) }
+	callback: result => { dispatch({ type: ACTIONS.LOADING_DONE }, data: result) }
+)};
+```
 
 ## Licence
 The code is open-source and available under the MIT Licence. More details in the LICENCE.md file.

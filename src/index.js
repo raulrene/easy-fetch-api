@@ -17,9 +17,10 @@ class Api {
      * @param {String} url API url to make request to
      * @param {Object} [headers] HTTP Headers
      * @param {Object} [query] Query object
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static get({ url, headers, query, callback }) {
+    static get({ url, headers, query, callBefore, callback }) {
         const request = { method: 'GET', url, headers: Object.assign({}, Api.headers, headers) };
         if (query) {
             const qs = Object.keys(query)
@@ -35,7 +36,7 @@ class Api {
                 .join('&');
             request.url += `?${qs}`;
         }
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
@@ -44,9 +45,10 @@ class Api {
      * @param {String} url API url to make request to
      * @param {Object} data The data to be updated
      * @param {Object} [headers] HTTP Headers
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static put({ url, data, headers, callback }) {
+    static put({ url, data, headers, callBefore, callback }) {
         const request = {
             method: 'PUT',
             url,
@@ -56,7 +58,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
@@ -65,9 +67,10 @@ class Api {
      * @param {String} url API url to make request to
      * @param {Object} data The data to be updated
      * @param {Object} [headers] HTTP Headers
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static patch({ url, data, headers, callback }) {
+    static patch({ url, data, headers, callBefore, callback }) {
         const request = {
             method: 'PATCH',
             url,
@@ -77,7 +80,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
@@ -86,9 +89,10 @@ class Api {
      * @param {String} url API url to make request to
      * @param {Object} data The data to be inserted
      * @param {Object} [headers] HTTP Headers
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static post({ url, data, headers, callback }) {
+    static post({ url, data, headers, callBefore, callback }) {
         const request = {
             method: 'POST',
             url,
@@ -98,7 +102,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
@@ -107,11 +111,12 @@ class Api {
      * @param {String} url API url to make request to
      * @param {String} data Form data to be inserted
      * @param {Object} [headers] HTTP Headers
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static postForm({ url, data, headers, callback }) {
+    static postForm({ url, data, headers, callBefore, callback }) {
         const request = { method: 'POST', url, body: data, headers: Object.assign({}, Api.headers, headers) };
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
@@ -120,22 +125,27 @@ class Api {
      * @param {String} url API url to make request to
      * @param {Object} [headers] HTTP Headers
      * @param {String} [query] Query string
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static delete({ url, headers, query, callback }) {
+    static delete({ url, headers, query, callBefore, callback }) {
         const request = { method: 'DELETE', url, query, headers: Object.assign({}, Api.headers, headers) };
-        return Api._makeRequest({ request, callback });
+        return Api._makeRequest({ request, callBefore, callback });
     }
 
     /**
      * Make a generic request
      *
      * @param {Object} request Request to be made. Must be of the form: {method, url, query [optional]}
+     * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      * @private
      */
-    static _makeRequest({ request, callback }) {
+    static _makeRequest({ request, callBefore, callback }) {
         const headers = request.headers || {};
+
+        // Pre-request function call
+        callBefore && callBefore();
 
         // Don't set the body if it's a GET request as it will crash on Microsoft Edge
         const params = {
