@@ -5,7 +5,7 @@ Easy to use and lightweight wrapper for the Fetch API.
 * Each method returns a Promise, therefore works with async/await
 * Automatically sets required headers (for POST, PUT and PATCH it sets `Accept` and `Content-Type` headers to `application/json`)
 * Provides method for easily posting [form data](#post-form)
-* Pre-request and post-request callbacks for an easier integration with store-based architectures like Redux [see example](#callbefore-and-callback)
+* Pre-request and post-request callbacks for an easier integration with store-based architectures like Redux - [see example](#callbefore-and-callback)
 
 This library does not provide a polyfill for the Fetch API.
 
@@ -158,7 +158,7 @@ Functions to be called before the request is fired and after the server responds
 ```javascript
 Api.get({
 	url: '/api/get',
-	callBefore: () => { dispatch({ type: ACTIONS.LOADING }) }
+	callBefore: () => { dispatch({ type: ACTIONS.LOADING }) },
 	callback: result => { dispatch({ type: ACTIONS.LOADING_DONE }, data: result) }
 )};
 ```
