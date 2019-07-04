@@ -19,8 +19,9 @@ class Api {
      * @param {Object} [query] Query object
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
+     * @param {String} [responseType] json or blob
      */
-    static get({ url, headers, query, callBefore, callback }) {
+    static get({ url, headers, query, callBefore, callback, responseType }) {
         const request = { method: 'GET', url, headers: Object.assign({}, Api.headers, headers) };
         if (query) {
             const qs = Object.keys(query)
@@ -36,7 +37,7 @@ class Api {
                 .join('&');
             request.url += `?${qs}`;
         }
-        return Api._makeRequest({ request, callBefore, callback });
+        return Api._makeRequest({ request, callBefore, callback, responseType });
     }
 
     /**
@@ -47,8 +48,9 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
+     * @param {String} [responseType] json or blob
      */
-    static put({ url, data, headers, callBefore, callback }) {
+    static put({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
             method: 'PUT',
             url,
@@ -58,7 +60,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callBefore, callback });
+        return Api._makeRequest({ request, callBefore, callback, responseType });
     }
 
     /**
@@ -69,8 +71,9 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
+     * @param {String} [responseType] json or blob
      */
-    static patch({ url, data, headers, callBefore, callback }) {
+    static patch({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
             method: 'PATCH',
             url,
@@ -80,7 +83,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callBefore, callback });
+        return Api._makeRequest({ request, callBefore, callback, responseType });
     }
 
     /**
@@ -91,8 +94,9 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
+     * @param {String} [responseType] json or blob
      */
-    static post({ url, data, headers, callBefore, callback }) {
+    static post({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
             method: 'POST',
             url,
@@ -102,7 +106,7 @@ class Api {
                 'Content-Type': 'application/json'
             }, Api.headers, headers)
         };
-        return Api._makeRequest({ request, callBefore, callback });
+        return Api._makeRequest({ request, callBefore, callback, responseType});
     }
 
     /**
@@ -139,9 +143,10 @@ class Api {
      * @param {Object} request Request to be made. Must be of the form: {method, url, query [optional]}
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
+     * @param {String} [responseType] json or blob
      * @private
      */
-    static _makeRequest({ request, callBefore, callback }) {
+    static _makeRequest({ request, callBefore, callback, responseType  = 'json'}) {
         const headers = request.headers || {};
 
         // Pre-request function call
@@ -158,7 +163,7 @@ class Api {
 
         // Do the API Request
         return fetch(request.url, params)
-            .then(res => res.json())
+            .then(res => responseType === 'blob' ? res.blob() : res.json())
             .then(res => {
                 callback && callback(res);
                 return res;
