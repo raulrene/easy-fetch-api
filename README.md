@@ -49,7 +49,7 @@ Api.get({
     url: '/api/get',
 	headers: { Authorization: 'token' },
 	query: { q1: 'value', qn: 'value' },
-	responseType: 'blob',
+	responseType: Api.RESPONSE_TYPES.blob,
 	callback: () => {}
 )};
 ```
@@ -58,7 +58,7 @@ Api.get({
 * __headers__ (Object, optional) HTTP Headers object in the form of `{ headerKey: headerValue }`
 * __query__ (Object, optional) Query object in the form of `{ queryKey: queryValue }`
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
-* __responseType__ (String, optional) 'json' (default) or 'blob'
+* __responseType__ (String, optional) one of the RESPONSE_TYPES allowed values
 * __returns Promise__
 
 ---
@@ -77,7 +77,7 @@ Api.post({
 * __data__ (Object, required) - Object body to be posted
 * __headers__ (Object, optional) HTTP Headers object in the form of `{ headerKey: headerValue }`. Note that there are two preset heders: `{ Accept: 'application/json', 'Content-Type': 'application/json' }`. You can override them using this parameter
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
-* __responseType__ (String, optional) 'json' (default) or 'blob'
+* __responseType__ (String, optional) one of the RESPONSE_TYPES allowed values
 * __returns Promise__
 
 ---
@@ -114,7 +114,7 @@ Api.put({
 * __data__ (Object, required) - Object body to be updated
 * __headers__ (Object, optional) HTTP Headers object in the form of `{ headerKey: headerValue }`. Note that there are two preset heders: `{ Accept: 'application/json', 'Content-Type': 'application/json' }`. You can override them using this parameter
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
-* __responseType__ (String, optional) 'json' (default) or 'blob'
+* __responseType__ (String, optional) one of the RESPONSE_TYPES allowed values
 * __returns Promise__
 
 ---
@@ -133,7 +133,7 @@ Api.patch({
 * __data__ (Object, required) - Object body to be updated
 * __headers__ (Object, optional) HTTP Headers object in the form of `{ headerKey: headerValue }`. Note that there are two preset heders: `{ Accept: 'application/json', 'Content-Type': 'application/json' }`. You can override them using this parameter
 * __callback__ (Function, optional) Function called after the server responds, with resulting data
-* __responseType__ (String, optional) 'json' (default) or 'blob'
+* __responseType__ (String, optional) one of the RESPONSE_TYPES allowed values
 * __returns Promise__
 
 ---

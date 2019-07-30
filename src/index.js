@@ -1,5 +1,4 @@
 class Api {
-
     /**
      * Set global headers instead of setting the same headers on each call.
      * @param headers {Object} headers object
@@ -19,7 +18,7 @@ class Api {
      * @param {Object} [query] Query object
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
-     * @param {String} [responseType] json or blob
+     * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
     static get({ url, headers, query, callBefore, callback, responseType }) {
         const request = { method: 'GET', url, headers: Object.assign({}, Api.headers, headers) };
@@ -48,7 +47,7 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
-     * @param {String} [responseType] json or blob
+     * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
     static put({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
@@ -71,7 +70,7 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
-     * @param {String} [responseType] json or blob
+     * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
     static patch({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
@@ -94,7 +93,7 @@ class Api {
      * @param {Object} [headers] HTTP Headers
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
-     * @param {String} [responseType] json or blob
+     * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
     static post({ url, data, headers, callBefore, callback, responseType }) {
         const request = {
@@ -143,7 +142,7 @@ class Api {
      * @param {Object} request Request to be made. Must be of the form: {method, url, query [optional]}
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
-     * @param {String} [responseType] json or blob
+     * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      * @private
      */
     static _makeRequest({ request, callBefore, callback, responseType  = 'json'}) {
@@ -163,7 +162,11 @@ class Api {
 
         // Do the API Request
         return fetch(request.url, params)
-            .then(res => responseType === 'blob' ? res.blob() : res.json())
+            .then(res => {
+                if (Api.RESPONSE_TYPES[responseType]) {
+                    return res[Api.RESPONSE_TYPES[responseType]]();
+                }
+            })
             .then(res => {
                 callback && callback(res);
                 return res;
@@ -174,6 +177,9 @@ class Api {
     }
 }
 
+Api.RESPONSE_TYPES = {json: 'json', blob: 'blob', text: 'text'};
+
+exports.RESPONSE_TYPES = Api.RESPONSE_TYPES;
 exports.setHeaders = Api.setHeaders;
 exports.get = Api.get;
 exports.put = Api.put;
