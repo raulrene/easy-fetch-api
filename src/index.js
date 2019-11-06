@@ -1,4 +1,13 @@
 class Api {
+
+    /**
+     * Set a global baseURL to prefix all URLs with
+     * @param {String} baseUrl
+     */
+    static setBaseUrl(baseUrl) {
+        Api.baseUrl = baseUrl
+    }
+
     /**
      * Set global headers instead of setting the same headers on each call.
      * @param headers {Object} headers object
@@ -147,6 +156,7 @@ class Api {
      */
     static _makeRequest({ request, callBefore, callback, responseType  = 'json'}) {
         const headers = request.headers || {};
+        const baseUrl = Api.baseUrl || '';
 
         // Pre-request function call
         callBefore && callBefore();
@@ -161,7 +171,7 @@ class Api {
         }
 
         // Do the API Request
-        return fetch(request.url, params)
+        return fetch(`${baseUrl}${request.url}`, params)
             .then(res => {
                 if (Api.RESPONSE_TYPES[responseType]) {
                     return res[Api.RESPONSE_TYPES[responseType]]();
@@ -181,6 +191,7 @@ Api.RESPONSE_TYPES = {json: 'json', blob: 'blob', text: 'text'};
 
 exports.RESPONSE_TYPES = Api.RESPONSE_TYPES;
 exports.setHeaders = Api.setHeaders;
+exports.setBaseUrl = Api.setBaseUrl;
 exports.get = Api.get;
 exports.put = Api.put;
 exports.put = Api.patch;

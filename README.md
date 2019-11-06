@@ -41,6 +41,16 @@ Api.setHeaders({ Authorization: 'Bearer token', Accept: 'application/json' });
 **More detailed usage examples below in the docs of each method**:
 
 
+### SET BASE URL
+Set a base URL (if needed).
+
+This will be used to prefix all later URLs
+
+```javascript
+Api.setBaseUrl('https://api-domain.com');
+```
+
+---
 ### GET
 Performs a HTTP Get request.
 
