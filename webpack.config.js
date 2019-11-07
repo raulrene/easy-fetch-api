@@ -10,7 +10,8 @@ module.exports = {
         library: 'EasyFetchApi',
         libraryTarget: 'umd',
         path: path.join(__dirname, 'dist'),
-        filename: 'index.js'
+        filename: 'index.js',
+        globalObject: 'typeof self !== \'undefined\' ? self : this',
     },
 
     resolve: {
