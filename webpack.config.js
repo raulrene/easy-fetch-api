@@ -1,5 +1,6 @@
 const path = require('path');
 const CleanPlugin = require('clean-webpack-plugin');
+const WrapperPlugin = require('wrapper-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -7,8 +8,6 @@ module.exports = {
     },
 
     output: {
-        library: 'EasyFetchApi',
-        libraryTarget: 'umd',
         path: path.join(__dirname, 'dist'),
         filename: 'index.js',
         globalObject: 'typeof self !== \'undefined\' ? self : this',
@@ -32,6 +31,21 @@ module.exports = {
     },
 
     plugins: [
-        new CleanPlugin('./dist')
+        new CleanPlugin('./dist'),
+        new WrapperPlugin({
+            test: /\.js$/,
+            header: ('(function umdWrapper(root, factory) {' +
+                '  if(typeof exports === "object" && typeof module === "object")' +
+                '    module.exports = factory().default;' +
+                '  else if(typeof define === "function" && define.amd)' +
+                '    define("NAME", [], function() { return factory().default; });' +
+                '  else if(typeof exports === "object")' +
+                '    exports["NAME"] = factory().default;' +
+                '  else' +
+                '    root["NAME"] = factory().default;' +
+                '})(this, function() {' +
+                'return ').replace(/NAME/g, 'EasyFetchApi'), // this is the name of the lib
+            footer: '\n})',
+        }),
     ]
 };

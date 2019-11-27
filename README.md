@@ -18,26 +18,27 @@ npm install --save easy-fetch-api
 ## Usage
 
 ```javascript
-import Api from 'easy-fetch-api';
-// OR import only desired methods
-import { get, post, postForm, put, patch, delete, setHeaders } from 'easy-fetch-api';
+import Api, { RESPONSE_TYPES } from 'easy-fetch-api';
 
-// Usage Example:
+// Static usage
 Api.get({ url: '/api/me', callback: console.log });
 
+// Class Instance usage
+const api = new Api()
+api.get({ url: '/api/me', callback: console.log });
+
 // Using async/await
-async function bla() {
-    const res = await Api.post({ url: '/api/register', data: { email: 'value', password: 'value' } });
+async function myMethod() {
+    await Api.post({ url: '/api/register', data: { email: 'value', password: 'value' } });
 }
 
 // Set headers on each request
 Api.get({ url: '/api/me', headers: { Authorization: 'Bearer token', Accept: 'application/json' } });
 
-// Or set headers globally and they are automatically passed on each request.
-// This comes in handy in apps that send some headers on each request (e.g. Authorization).
-// Note: headers don't persist between page loads so make sure you set them "globally" before calling Api methods
+// Or set headers globally and they are automatically passed on each request
 Api.setHeaders({ Authorization: 'Bearer token', Accept: 'application/json' });
 ```
+
 **More detailed usage examples below in the docs of each method**:
 
 
