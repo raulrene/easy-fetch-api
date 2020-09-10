@@ -20,23 +20,17 @@ npm install --save easy-fetch-api
 ```javascript
 import Api, { RESPONSE_TYPES } from 'easy-fetch-api';
 
-// Static usage
 Api.get({ url: '/api/me', callback: console.log });
 
-// Class Instance usage
-const api = new Api()
-api.get({ url: '/api/me', callback: console.log });
-
-// Using async/await
-async function myMethod() {
-    await Api.post({ url: '/api/register', data: { email: 'value', password: 'value' } });
-}
+await Api.post({ url: '/api/register', data: { email: 'value', password: 'value' } });
 
 // Set headers on each request
-Api.get({ url: '/api/me', headers: { Authorization: 'Bearer token', Accept: 'application/json' } });
+Api.get({ url: '/api/me', headers: { Authorization: 'Bearer token' } });
 
 // Or set headers globally and they are automatically passed on each request
-Api.setHeaders({ Authorization: 'Bearer token', Accept: 'application/json' });
+Api.setHeaders({ Authorization: 'Bearer token' });
+
+console.log(RESPONSE_TYPES) // { json: 'json', blob: 'blob', text: 'text' }
 ```
 
 **More detailed usage examples below in the docs of each method**:
