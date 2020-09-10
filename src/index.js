@@ -378,7 +378,9 @@ class Api {
             const qs = Object.keys(request.query)
                 .map(k => {
                     let keyValue = `${encodeURIComponent(k)}=`
-                    if (typeof request.query[k] === 'object') {
+                    if (Array.isArray(request.query[k])) {
+                        keyValue += request.query[k].join(`&${encodeURIComponent(k)}=`)
+                    } else if (typeof request.query[k] === 'object') {
                         keyValue += encodeURIComponent(JSON.stringify(request.query[k]))
                     } else {
                         keyValue += encodeURIComponent(request.query[k])
