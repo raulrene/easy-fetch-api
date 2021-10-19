@@ -394,9 +394,10 @@ class Api {
         // Do the API Request
         return fetch(request.url, params)
             .then(res => {
-                if (Api.RESPONSE_TYPES[responseType]) {
+                if (Api.RESPONSE_TYPES[responseType] && responseType !== RESPONSE_TYPES.raw) {
                     return res[Api.RESPONSE_TYPES[responseType]]()
                 }
+                return res
             })
             .then(res => {
                 callback && callback(res)
@@ -408,7 +409,7 @@ class Api {
     }
 }
 
-Api.RESPONSE_TYPES = {json: 'json', blob: 'blob', text: 'text'};
+Api.RESPONSE_TYPES = {json: 'json', blob: 'blob', text: 'text', raw: 'raw'};
 
 export default Api
 export const RESPONSE_TYPES = Api.RESPONSE_TYPES;
