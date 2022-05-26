@@ -367,7 +367,8 @@ class Api {
         // Don't set the body if it's a GET request as it will crash on Microsoft Edge
         const params = {
             headers,
-            method: request.method || 'GET'
+            method: request.method || 'GET',
+            signal: request.signal
         }
         if (params.method !== 'GET') {
             params.body = request.body || null
