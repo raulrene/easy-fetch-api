@@ -95,14 +95,15 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    get({ url, headers, query, callBefore, callback, responseType }) {
+    get({ url, headers, query, callBefore, callback, responseType, ...rest }) {
         const request = formGetRequest.call(this, { url, headers, query })
 
         return this.constructor._makeRequest({
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -116,14 +117,15 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    static get({ url, headers, query, callBefore, callback, responseType }) {
+    static get({ url, headers, query, callBefore, callback, responseType, ...rest }) {
         const request = formGetRequest.call(this, { url, headers, query })
 
         return this._makeRequest({
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -137,7 +139,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    put({ url, data, headers, callBefore, callback, responseType }) {
+    put({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'PUT',
             url,
@@ -148,7 +150,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -162,7 +165,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    static put({ url, data, headers, callBefore, callback, responseType }) {
+    static put({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'PUT',
             url,
@@ -174,7 +177,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -188,7 +192,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    patch({ url, data, headers, callBefore, callback, responseType }) {
+    patch({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'PATCH',
             url,
@@ -199,7 +203,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -213,7 +218,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    static patch({ url, data, headers, callBefore, callback, responseType }) {
+    static patch({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'PATCH',
             url,
@@ -224,7 +229,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -238,7 +244,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    post({ url, data, headers, callBefore, callback, responseType }) {
+    post({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'POST',
             url,
@@ -249,7 +255,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -263,7 +270,7 @@ class Api {
      * @param {Function} [callback] Function to be run after the server responds
      * @param {String} [responseType] any value of the RESPONSE_TYPES map. Defaults to 'json'
      */
-    static post({ url, data, headers, callBefore, callback, responseType }) {
+    static post({ url, data, headers, callBefore, callback, responseType, ...rest }) {
         const request = formPostRequest.call(this, {
             method: 'POST',
             url,
@@ -274,7 +281,8 @@ class Api {
             request,
             callBefore,
             callback,
-            responseType
+            responseType,
+            ...rest
         })
     }
 
@@ -287,9 +295,14 @@ class Api {
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    postForm({ url, data, headers, callBefore, callback }) {
+    postForm({ url, data, headers, callBefore, callback, ...rest }) {
         const request = formPostFormRequest.call(this, { url, headers, data })
-        return this.constructor._makeRequest({ request, callBefore, callback })
+        return this.constructor._makeRequest({
+            request,
+            callBefore,
+            callback,
+            ...rest
+        })
     }
 
     /**
@@ -301,9 +314,9 @@ class Api {
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static postForm({ url, data, headers, callBefore, callback }) {
+    static postForm({ url, data, headers, callBefore, callback, ...rest }) {
         const request = formPostFormRequest.call(this, { url, headers, data })
-        return this._makeRequest({ request, callBefore, callback })
+        return this._makeRequest({ request, callBefore, callback, ...rest })
     }
 
     /**
@@ -315,14 +328,14 @@ class Api {
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    delete({ url, headers, query, callBefore, callback }) {
+    delete({ url, headers, query, callBefore, callback, ...rest }) {
         const request = formGetRequest.call(this, {
             method: 'DELETE',
             url,
             headers,
             query
         })
-        return this.constructor._makeRequest({ request, callBefore, callback })
+        return this.constructor._makeRequest({ request, callBefore, callback, ...rest })
     }
 
     /**
@@ -334,14 +347,14 @@ class Api {
      * @param {Function} [callBefore] Function to be run before the request
      * @param {Function} [callback] Function to be run after the server responds
      */
-    static delete({ url, headers, query, callBefore, callback }) {
+    static delete({ url, headers, query, callBefore, callback, ...rest }) {
         const request = formGetRequest.call(this, {
             method: 'DELETE',
             url,
             headers,
             query
         })
-        return this._makeRequest({ request, callBefore, callback })
+        return this._makeRequest({ request, callBefore, callback, ...rest })
     }
 
     /**
@@ -357,7 +370,8 @@ class Api {
                             request,
                             callBefore,
                             callback,
-                            responseType = 'json'
+                            responseType = 'json',
+                            ...rest
                         }) {
         const headers = request.headers || {}
 
@@ -368,7 +382,7 @@ class Api {
         const params = {
             headers,
             method: request.method || 'GET',
-            signal: request.signal
+            ...rest
         }
         if (params.method !== 'GET') {
             params.body = request.body || null

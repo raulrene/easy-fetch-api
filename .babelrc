@@ -1,5 +1,5 @@
 {
     "presets": [
-        "env"
+        "env", "es2015", "stage-0"
     ]
 }
