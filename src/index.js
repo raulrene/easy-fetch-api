@@ -392,6 +392,9 @@ class Api {
         if (request.query) {
             const qs = Object.keys(request.query)
                 .map(k => {
+                    if (typeof request.query[k] === 'undefined') {
+                        return null
+                    }
                     let keyValue = `${encodeURIComponent(k)}=`
                     if (Array.isArray(request.query[k])) {
                         keyValue += request.query[k].join(`&${encodeURIComponent(k)}=`)
@@ -401,7 +404,7 @@ class Api {
                         keyValue += encodeURIComponent(request.query[k])
                     }
                     return keyValue
-                })
+                }).filter(el => el !== null)
                 .join('&')
             request.url += `?${qs}`
         }
