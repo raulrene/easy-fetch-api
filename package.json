@@ -8,9 +8,6 @@
     "scripts": {
         "build": "webpack -p"
     },
-    "engines": {
-        "node": "v16.15.0"
-    },
     "keywords": [
         "fetch-api",
         "rest",
